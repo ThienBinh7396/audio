@@ -95,7 +95,7 @@
           <v-icon class="ld ld-jump" :class="{'mt-1': !scrollTop }">{{scrollTop ? 'mdi-chevron-up' : 'mdi-chevron-down'}}</v-icon>
         </div>
         <div @click.stop="dialogSetting = true">
-          <v-icon class="ld xhalf ld-spin ">mdi-settings</v-icon>
+          <v-icon class="ld xhalf ld-spin ">mdi-cog</v-icon>
         </div>
         <div @click.stop="dialogTimer = true">
           <v-icon class="ld ld-jingle">mdi-timer</v-icon>

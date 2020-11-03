@@ -161,7 +161,7 @@
             }}</v-icon>
           </div>
           <div @click.stop="dialogSetting = true">
-            <v-icon class="ld xhalf ld-spin">mdi-settings</v-icon>
+            <v-icon class="ld xhalf ld-spin">mdi-cog</v-icon>
           </div>
           <div @click.stop="dialogTimer = true">
             <v-icon class="ld ld-jingle">mdi-timer</v-icon>
@@ -231,11 +231,6 @@ export default {
   created() {
     this.init();
   },
-  mounted() {
-    responsiveVoice.speak("hello", this.voice, {
-      volume: 0,
-    });
-  },
   computed: {
     ...mapState("app", ["config", "detectMobile", "recentStories"]),
   },
@@ -248,8 +243,6 @@ export default {
     config: function (val) {
       console.log("Audio: ");
       console.log(val);
-
-      this.updateConfig();
     },
   },
   methods: {
@@ -303,10 +296,6 @@ export default {
           this.currentLine = 0;
 
           if (this.reading) {
-            this.currentAudio = "audio";
-
-            this.audio.src = this.getUrl(this.currentLine);
-
             this.speak();
           }
 
@@ -353,17 +342,6 @@ export default {
             this.setTopBackground(imageUrl(this.recentStories[index].image));
           }
         });
-    },
-    updateConfig: function () {
-      if (this.audio) {
-        this.audio.volume = this.config.volume;
-        this.audio.playbackRate = this.config.speed;
-      }
-
-      if (this.audioAnother) {
-        this.audioAnother.volume = this.config.volume;
-        this.audioAnother.playbackRate = this.config.speed;
-      }
     },
     select: function () {
       let selectText = "";
@@ -640,11 +618,6 @@ export default {
   mounted() {
     console.log("Mounted");
 
-    this.audio = document.getElementById("speech-audio");
-    this.audioAnother = document.getElementById("speech-audio-another");
-
-    this.updateConfig();
-
     document.body.addEventListener("scroll", () => {
       this.scrollTop = document.body.scrollTop < this.currentScrollPoint;
 
@@ -665,6 +638,10 @@ export default {
       if (event.keyCode == 40) {
         this.scrollTo(240);
       }
+    });
+
+    responsiveVoice.speak("hello", this.voice, {
+      volume: 0
     });
   },
   destroyed() {

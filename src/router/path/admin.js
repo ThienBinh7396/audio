@@ -32,8 +32,8 @@ export default [{
             name: 'ChapterLayout',
             component: () =>
                 // import ('@/views/pages/ContentChapterRsV'),
-                // import ('@/views/pages/ContentChapterRsVAudio2'),
-                import ('@/views/pages/ContentChapterRsVAudio'),
+                import ('@/views/pages/ContentChapterRsVAudio2'),
+                // import ('@/views/pages/ContentChapterRsVAudio'),
             //import ('@/views/pages/ContentChapter'),
             meta: {
                 middleware: admin
