@@ -31,8 +31,9 @@ export default [{
             path: '/read/story/:story_url/:chapter_url/:chapter_id',
             name: 'ChapterLayout',
             component: () =>
-                import ('@/views/pages/ContentChapterRsV'),
+                // import ('@/views/pages/ContentChapterRsV'),
                 // import ('@/views/pages/ContentChapterRsVAudio2'),
+                import ('@/views/pages/ContentChapterRsVAudio'),
             //import ('@/views/pages/ContentChapter'),
             meta: {
                 middleware: admin

@@ -1,5 +1,4 @@
 export default {
-    ip: null,
     config: {
         volume: 1,
         speed: 1,

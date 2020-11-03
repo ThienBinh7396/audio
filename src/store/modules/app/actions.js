@@ -3,54 +3,8 @@ import { DB } from '@/firebase/db'
 import Vue from 'vue';
 
 export default {
-    initializeIp({ commit }, ip) {
-        ip = btoa(ip);
-
-        commit('setIp', ip);
-
-
-
-
-        DB.collection('users').doc(`${ip}`).get()
-            .then(snap => {
-                if (!snap.exists) {
-                    DB.collection('users').doc(`${ip}`).set({
-                        config: {
-                            volume: 1,
-                            speed: 1,
-                            fontSize: 24
-                        },
-                        stories: []
-                    }, (err) => {})
-                } else {
-
-                    DB.collection('users').doc(`${ip}`)
-                        .onSnapshot(doc => {
-                            let data = doc.data();
-
-                            if (!data.stories) {
-                                data.stories = [];
-                            }
-
-                            commit('setConfig', data.config);
-                            commit('setRecentStories', data.stories);
-                        });
-
-
-                }
-            })
-
-    },
     updateConfig({ commit, state }, config) {
-        if (!state.ip) return;
-
-        console.log(state);
-
-
-        DB.collection('users').doc(state.ip)
-            .update({
-                config
-            })
+        commit('setConfig', config)
     },
     showToast({ commit }, toast) {
         commit('setToast', toast);
@@ -96,65 +50,45 @@ export default {
 
     },
     updateRecentlyStory({ commit, state }, recentStory) {
-        if (!state.ip) return;
+        let recentStories = JSON.parse(JSON.stringify(state.recentStories))
+
+        let index = recentStories.findIndex(it => it.id == recentStory.storyInfo.id);
 
 
-        DB.collection('users').doc(state.ip)
-            .get()
-            .then(snap => {
-                let stories = null;
+        if (index < 0) {
+            Vue.prototype.$axios.get(`/story/info?id_story=${recentStory.storyInfo.id}`)
+                .then(rs => {
+                    let { data } = rs;
 
-                if (!snap.data().hasOwnProperty('stories')) {
-                    stories = [];
-                } else {
-                    stories = snap.data().stories;
-                }
+                    recentStories.push({
+                        ...data.data,
+                        recentChapter: {
+                            id: recentStory.chapterId,
+                            title: recentStory.storyInfo.chapter,
+                            href: recentStory.chapterHref,
+                            time: Date.now()
+                        }
+                    })
+                    commit('setRecentStories', recentStories.sort((a, b) => b.recentChapter.time - a.recentChapter.time))
 
-                let index = stories.findIndex(it => it.id == recentStory.storyInfo.id);
-
-                if (index < 0) {
-                    Vue.prototype.$axios.get(`/story/info?id_story=${recentStory.storyInfo.id}`)
-                        .then(rs => {
-                            let { data } = rs;
-
-                            stories.push({
-                                ...data.data,
-                                recentChapter: {
-                                    id: recentStory.chapterId,
-                                    title: recentStory.storyInfo.chapter,
-                                    href: recentStory.chapterHref,
-                                    time: Date.now()
-                                }
-                            })
-
-                            stories.sort((a, b) => b.recentChapter.time - a.recentChapter.time);
-
-                            DB.collection('users').doc(state.ip)
-                                .update({ stories });
-
-                        })
+                })
 
 
-                } else {
-                    let story = stories[index];
+        } else {
+            let story = recentStories[index];
 
-                    story.recentChapter = {
-                        id: recentStory.chapterId,
-                        href: recentStory.chapterHref,
-                        title: recentStory.storyInfo.chapter,
-                        time: Date.now()
-                    };
+            story.recentChapter = {
+                id: recentStory.chapterId,
+                href: recentStory.chapterHref,
+                title: recentStory.storyInfo.chapter,
+                time: Date.now()
+            };
 
 
-                    stories.splice(index, 1, story);
+            recentStories.splice(index, 1, story);
+            commit('setRecentStories', recentStories.sort((a, b) => b.recentChapter.time - a.recentChapter.time))
 
-                    stories.sort((a, b) => b.recentChapter.time - a.recentChapter.time);
-
-                    DB.collection('users').doc(state.ip)
-                        .update({ stories });
-
-                }
-
-            })
+        }
+      
     }
 }
