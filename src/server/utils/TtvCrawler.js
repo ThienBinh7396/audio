@@ -45,7 +45,7 @@ class TtvCrawler {
 
     async getInformationStory(titleStory) {
         return new Promise(res => {
-            request(`${this.fullUrlGetInformationStory(titleStory)}`, (err, response, body) => {
+            request(encodeURI(`${this.fullUrlGetInformationStory(titleStory)}`), (err, response, body) => {
 
                 if (err || response.statusCode > 299) {
                     console.log(`Crawler faild: ${this.fullUrlGetInformationStory(titleStory)}`);
@@ -94,7 +94,7 @@ class TtvCrawler {
 
     async getChapterByStoryId(storyId) {
         return new Promise(res => {
-            request(this.fullUrlGetChapterOfStory(storyId), (err, response, body) => {
+            request(encodeURI(this.fullUrlGetChapterOfStory(storyId)), (err, response, body) => {
                 if (err || response.statusCode > 299) {
                     res(null);
                 } else {
@@ -216,9 +216,11 @@ class TtvCrawler {
 
     async searchStoryByName(query) {
         return new Promise(res => {
-            request(`${this.fullUrlSearchStoryByName(query)}`, (err, response, body) => {
+            request(encodeURI(`${this.fullUrlSearchStoryByName(query)}`), (err, response, body) => {
+                
+                console.log(query, err)
                 if (err || response.statusCode > 299) {
-                    console.log('Crawler faild');
+                    console.log('Crawler faild', this.fullUrlSearchStoryByName(query));
                     res(null);
                 } else {
                     res(JSON.parse(body));
@@ -259,7 +261,7 @@ class TtvCrawler {
     async getContentChapterOfStory(urlStory, urlChapter) {
         return new Promise(res => {
 
-            request(this.fullUrlGetContentChapterOfStory(urlStory, urlChapter), (err, response, body) => {
+            request(encodeURI(this.fullUrlGetContentChapterOfStory(urlStory, urlChapter)), (err, response, body) => {
                 if (err || response.statusCode > 299) {
                     res(null);
                 } else {
@@ -290,7 +292,7 @@ class TtvCrawler {
     async getContentChapterOfStoryByChapterURL(urlChapter) {
         return new Promise(res => {
 
-            request(urlChapter, (err, response, body) => {
+            request(encodeURI(urlChapter), (err, response, body) => {
                 if (err || response.statusCode > 299) {
                     res(null);
                 } else {

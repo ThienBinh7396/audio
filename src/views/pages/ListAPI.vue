@@ -1,5 +1,5 @@
 <template>
-  <div style="background: #fdfdfd">
+  <div style="background: #fdfdfd; padding-bottom: 100px">
     <div
       v-for="(_apis, apisIndex) in apis"
       apigroup
