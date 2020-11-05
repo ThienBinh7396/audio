@@ -1,19 +1,28 @@
 import admin from '@/middleware/admin'
 
-export default [{
-    path: '/',
-    name: "Layout",
-    component: () =>
-        import ('@/views/layouts/MainLayout'),
-    redirect: '/home',
-    meta: {
-        middleware: admin
-    },
-    children: [{
+export default [
+    {
+        path: '/api/document',
+        name: 'APIDocument',
+        component: () =>
+            import('@/views/pages/ListAPI'),
+        meta: {
+            middleware: admin
+        }
+    }, {
+        path: '/',
+        name: "Layout",
+        component: () =>
+            import('@/views/layouts/MainLayout'),
+        redirect: '/home',
+        meta: {
+            middleware: admin
+        },
+        children: [{
             path: '/home',
             name: 'HomeLayout',
             component: () =>
-                import ('@/views/pages/Home'),
+                import('@/views/pages/Home'),
             meta: {
                 middleware: admin
             }
@@ -22,7 +31,7 @@ export default [{
             path: '/story/:story_url/:storyId',
             name: 'StoryLayout',
             component: () =>
-                import ('@/views/pages/Story'),
+                import('@/views/pages/Story'),
             meta: {
                 middleware: admin
             }
@@ -32,18 +41,18 @@ export default [{
             name: 'ChapterLayout',
             component: () =>
                 // import ('@/views/pages/ContentChapterRsV'),
-                import ('@/views/pages/ContentChapterRsVAudio2'),
-                // import ('@/views/pages/ContentChapterRsVAudio'),
+                import('@/views/pages/ContentChapterRsVAudio2'),
+            // import ('@/views/pages/ContentChapterRsVAudio'),
             //import ('@/views/pages/ContentChapter'),
             meta: {
                 middleware: admin
             }
         }
-    ],
+        ],
 
-}, {
-    path: '/404',
-    name: "404",
-    component: () =>
-        import ('@/views/pages/404'),
-}]
+    }, {
+        path: '/404',
+        name: "404",
+        component: () =>
+            import('@/views/pages/404'),
+    }]

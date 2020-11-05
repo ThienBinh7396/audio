@@ -48,7 +48,7 @@ class TtvCrawler {
             request(`${this.fullUrlGetInformationStory(titleStory)}`, (err, response, body) => {
 
                 if (err || response.statusCode > 299) {
-                    console.log('Crawler faild');
+                    console.log('Crawler faild: ', this.fullUrlGetInformationStory(titleStory));
                     res(null);
                 } else {
                     let $ = cheerio.load(body);
