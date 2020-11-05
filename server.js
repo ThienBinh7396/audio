@@ -14,12 +14,7 @@ app.use(express.urlencoded({ extended: false }));
 //access cross domain
 const allowCrossDomain = function(req, res, next) {
     res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, Access-Control-Allow-Origin, x-access-token");
-
-    let allowedOrigins = ['http://localhost:3000', 'http://audio-sleepy-bilby.mybluemix.net', 'https://audio-sleepy-bilby.mybluemix.net', 'http://127.0.0.1:8080', 'http://localhost:8080', 'https://my-audio-46a92.firebaseapp.com'];
-    let origin = req.headers.origin;
-    if (allowedOrigins.indexOf(origin) > -1) {
-        res.setHeader('Access-Control-Allow-Origin', '*');
-    }
+    res.setHeader('Access-Control-Allow-Origin', '*');
     console.log()
     next();
 }
