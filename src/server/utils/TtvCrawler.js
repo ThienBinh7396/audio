@@ -175,7 +175,7 @@ class TtvCrawler {
                         let { href, title } = lists[key].attribs;
 
                         chapters.push({
-                            idStory,
+                            idStory: Number(idStory),
                             title,
                             href
                         })
