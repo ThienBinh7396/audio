@@ -47,6 +47,12 @@ export default [
             meta: {
                 middleware: admin
             }
+        },
+        {
+            path: '/read/chapters',
+            name: 'Chapter',
+            component: () => 
+                import('@/views/pages/Chapter'),
         }
         ],
 

@@ -6,14 +6,13 @@ export default {
     updateConfig({ commit, state }, config) {
         commit('setConfig', config)
     },
-    showToast({ commit }, toast) {
-        commit('setToast', toast);
-
+    showToast({ commit, state }, toast) {
+        commit('setToast', { ...state.toast, ...toast });
         commit('setShowToast', false);
         setTimeout(() => {
             commit('setShowToast', true);
         }, 100)
-        console.log(toast);
+        console.log('toast' , toast);
     },
     updateResponsiveByWidth: ({ commit }, width) => {
         // 1: xs
@@ -89,6 +88,6 @@ export default {
             commit('setRecentStories', recentStories.sort((a, b) => b.recentChapter.time - a.recentChapter.time))
 
         }
-      
+
     }
 }

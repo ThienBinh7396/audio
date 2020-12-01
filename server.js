@@ -15,7 +15,6 @@ app.use(express.urlencoded({ extended: false }));
 const allowCrossDomain = function(req, res, next) {
     res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, Access-Control-Allow-Origin, x-access-token");
     res.setHeader('Access-Control-Allow-Origin', '*');
-    console.log()
     next();
 }
 app.use(allowCrossDomain);

@@ -8,7 +8,7 @@
 
         <v-container class="main-container">
             <div class="top-header relative">
-                <ul class="top-nav">
+                <ul class="top-nav" v-if="showNav">
                     <li v-for="(item, index) in nav" :key="`nav-${index}`">
                         <router-link v-bind:to="item.path" class="to-link" :class="{'disabled': index == nav.length - 1}">
                             {{item.text}}
@@ -64,7 +64,7 @@ export default {
         }
     },
     computed: {
-        ...mapState('app', ['topBackground', 'nav', 'title', 'showSearch', 'detectMobile'])
+        ...mapState('app', ['topBackground', 'nav', 'showNav', 'title', 'showSearch', 'detectMobile'])
     },
     methods: {
         ...mapMutations('app', ['setNav', 'setDetectMobile', 'setShowSearch']),

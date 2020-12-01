@@ -4,6 +4,7 @@
 const Helper = require('./Helper');
 const request = require('request');
 const cheerio = require('cheerio');
+const url = require('url');
 
 const axios = require('axios')
 
@@ -236,7 +237,11 @@ class TtvCrawler {
                 id_story: idStory
             })
                 .then(rs => {
-                    let { data } = rs;
+
+                    let { data, config } = rs;
+
+                    let _url = url.parse(config.url)
+                    console.log(config, _url);
 
                     if (data.status == 1) {
                         let { story } = data;

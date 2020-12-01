@@ -12,6 +12,8 @@ const ttvCrawler = require("./../utils/TtvCrawler");
 
 const filePath = path.join(__dirname + "./../../../dist/logs/log.txt");
 
+const storyCrawler = require("./../utils/StoryCrawler");
+
 
 function formatNumber(num) {
   return num > 9 ? num : `0${num}`;
@@ -202,6 +204,13 @@ router.get("/story/home", (req, res) => {
     }
   });
 });
+
+router.post("/story/fetchContentByUrl", async (req, res) => {
+  let { chapter_url } = req.body;
+  const result = await storyCrawler.fetchContent(chapter_url)
+
+  res.send(result.error ? Status.getStatus("error", result.error.message, result) : Status.getStatus("success", "Successful", result))
+})
 
 const axios = require("axios");
 
