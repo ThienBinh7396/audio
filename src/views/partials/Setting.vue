@@ -123,7 +123,7 @@
           color="#2740e0"
           dark
           fab
-          @click.stop="$emit('speak')"
+          @click.stop="$emit('startSpeak')"
         >
           <radio-gif
             width="32"
