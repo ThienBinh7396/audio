@@ -1,14 +1,13 @@
-const requireModule = require.context('.', true, /\.js$/)
+const requireModule = require.context(".", true, /\.js$/);
 
-var path = [];
-requireModule.keys().forEach(fileName => {
-    if (fileName === './index.js') return;
+let path = [];
+requireModule.keys().forEach((fileName) => {
+  if (fileName === "./index.js") return;
 
-    var im = requireModule(fileName).default;
-    if (im) {
-        path = path.concat(im)
-    }
-
-})
+  const moduleName = requireModule(fileName).default;
+  if (moduleName) {
+    path = path.concat(moduleName);
+  }
+});
 
 export default path;
