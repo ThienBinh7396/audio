@@ -5,7 +5,7 @@
     "scripts": {
         "serve": "vue-cli-service serve",
         "build": "vue-cli-service build",
-        "start": "node server.js",
+        "start": "yarn build && node server.js",
         "nodemon": "nodemon server.js"
     },
     "dependencies": {
