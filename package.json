@@ -5,7 +5,7 @@
     "scripts": {
         "serve": "vue-cli-service serve",
         "build": "vue-cli-service build",
-        "start": "yarn build && node server.js",
+        "start": "node server.js",
         "nodemon": "nodemon server.js"
     },
     "dependencies": {
@@ -21,17 +21,6 @@
         "selenium-webdriver": "^4.0.0-alpha.7",
         "serve-static": "^1.14.1",
         "vue": "^2.6.12",
-        "@vue/cli-service": "^4.5.8",
-        "@vue/cli-plugin-babel": "^4.5.8",
-        "@vue/cli-plugin-eslint": "^4.5.8",
-        "vue-cli-plugin-vuetify": "^2.0.7",
-        "babel-eslint": "^10.1.0",
-        "eslint": "^5.16.0",
-        "eslint-plugin-vue": "^5.0.0",
-        "sass": "^1.28.0",
-        "sass-loader": "^8.0.2",
-        "vue-template-compiler": "^2.6.12",
-        "vuetify-loader": "^1.6.0",
         "vue-router": "^3.4.8",
         "vue2-perfect-scrollbar": "^1.5.0",
         "vuefire": "^2.2.4",
@@ -39,7 +28,25 @@
         "vuex": "^3.5.1",
         "vuex-persistedstate": "^4.0.0-beta.1"
     },
-    "devDependencies": {},
+    "devDependencies": {
+        "@vue/cli-plugin-babel": "^4.5.8",
+        "@vue/cli-plugin-eslint": "^4.5.8",
+        "@vue/cli-service": "^4.5.8",
+        "babel-eslint": "^10.1.0",
+        "eslint": "^5.16.0",
+        "eslint-plugin-vue": "^5.0.0",
+        "husky": "^7.0.2",
+        "sass": "^1.28.0",
+        "sass-loader": "^8.0.2",
+        "vue-cli-plugin-vuetify": "^2.0.7",
+        "vue-template-compiler": "^2.6.12",
+        "vuetify-loader": "^1.6.0"
+    },
+    "husky": {
+        "hooks": {
+            "pre-commit": "npm run build"
+        }
+    },
     "eslintConfig": {
         "root": true,
         "env": {
