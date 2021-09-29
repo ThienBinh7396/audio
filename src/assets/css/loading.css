@@ -1,3 +1,26 @@
+.preload-wrapper {
+  width: 100vw;
+  height: 100vh;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 1000;
+  background-color: #080808;
+  display: flex;
+  align-items: center;
+  transform-origin: center;
+  transition: 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+  visibility: visible;
+  transform: scale(1);
+  opacity: 1;
+}
+
+.preload-wrapper.hide {
+  visibility: hidden;
+  transform: scale(0.9);
+  opacity: 0;
+}
+
 .loadingio-spinner-spinner {
   width: 200px;
   height: 200px;
@@ -230,3 +253,129 @@
 .ldio-5sy8jw7bds div {
   box-sizing: content-box;
 }
+
+/* preload icon css */
+
+.loadingio-spinner-bean-eater-orvmqd49jl {
+  transform: scale(1.25);
+}
+
+@media (max-width: 600px) {
+  .loadingio-spinner-bean-eater-orvmqd49jl {
+    transform: scale(1);
+  }
+}
+
+@keyframes ldio-3882ls1jz1e-1 {
+  0% {
+    transform: rotate(0deg);
+  }
+  50% {
+    transform: rotate(-45deg);
+  }
+  100% {
+    transform: rotate(0deg);
+  }
+}
+
+@keyframes ldio-3882ls1jz1e-2 {
+  0% {
+    transform: rotate(180deg);
+  }
+  50% {
+    transform: rotate(225deg);
+  }
+  100% {
+    transform: rotate(180deg);
+  }
+}
+
+.ldio-3882ls1jz1e > div:nth-child(2) {
+  transform: translate(-15px, 0);
+}
+
+.ldio-3882ls1jz1e > div:nth-child(2) div {
+  position: absolute;
+  top: 32.8px;
+  left: 32.8px;
+  width: 98.39999999999999px;
+  height: 49.199999999999996px;
+  border-radius: 98.39999999999999px 98.39999999999999px 0 0;
+  background: #ec200e;
+  animation: ldio-3882ls1jz1e-1 1s linear infinite;
+  transform-origin: 49.199999999999996px 49.199999999999996px;
+}
+
+.ldio-3882ls1jz1e > div:nth-child(2) div:nth-child(2) {
+  animation: ldio-3882ls1jz1e-2 1s linear infinite;
+}
+
+.ldio-3882ls1jz1e > div:nth-child(2) div:nth-child(3) {
+  transform: rotate(-90deg);
+  animation: none;
+}
+
+@keyframes ldio-3882ls1jz1e-3 {
+  0% {
+    transform: translate(155.79999999999998px, 0);
+    opacity: 0;
+  }
+  20% {
+    opacity: 1;
+  }
+  100% {
+    transform: translate(57.4px, 0);
+    opacity: 1;
+  }
+}
+
+.ldio-3882ls1jz1e > div:nth-child(1) {
+  display: block;
+}
+
+.ldio-3882ls1jz1e > div:nth-child(1) div {
+  position: absolute;
+  top: 75.44px;
+  left: -6.56px;
+  width: 13.12px;
+  height: 13.12px;
+  border-radius: 50%;
+  background: #d34c31;
+  animation: ldio-3882ls1jz1e-3 1s linear infinite;
+}
+
+.ldio-3882ls1jz1e > div:nth-child(1) div:nth-child(1) {
+  animation-delay: -0.67s;
+}
+
+.ldio-3882ls1jz1e > div:nth-child(1) div:nth-child(2) {
+  animation-delay: -0.33s;
+}
+
+.ldio-3882ls1jz1e > div:nth-child(1) div:nth-child(3) {
+  animation-delay: 0s;
+}
+
+.loadingio-spinner-bean-eater-orvmqd49jl {
+  width: 164px;
+  height: 164px;
+  display: inline-block;
+  overflow: hidden;
+  background: #080808;
+}
+
+.ldio-3882ls1jz1e {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  transform: translateZ(0) scale(1);
+  backface-visibility: hidden;
+  transform-origin: 0 0;
+  /* see note above */
+}
+
+.ldio-3882ls1jz1e div {
+  box-sizing: content-box;
+}
+
+/* preload icon css */

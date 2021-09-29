@@ -10,8 +10,8 @@
       />
 
       <v-container class="main-container">
-        <div class="top-header relative">
-          <ul class="top-nav" v-if="showNav">
+        <div class="top-header position-relative">
+          <ul class="top-nav" v-if="isShowNav">
             <li v-for="(item, index) in nav" :key="`nav-${index}`">
               <router-link
                 v-bind:to="item.path"
@@ -80,7 +80,7 @@ export default {
     ...mapState("app", [
       "topBackground",
       "nav",
-      "showNav",
+      "isShowNav",
       "title",
       "showSearch",
       "detectMobile",

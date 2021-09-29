@@ -43,7 +43,7 @@
               }}</v-chip>
             </div>
             <div class="story-intro mt-3">
-              <div class="fs-13 text-truncate pr-4">
+              <div class="fs-13 pr-4 text-truncate">
                 {{ currentstory.introduce }}
               </div>
             </div>
@@ -168,6 +168,12 @@ export default {
   },
   data() {
     return {
+      nav: [
+        {
+          path: "/",
+          text: "Trang chủ",
+        },
+      ],
       chaps: [],
       resultSearch: [],
       loading: true,
@@ -196,6 +202,7 @@ export default {
     init: function() {
       this.currentstory.id = Number(this.$route.params.storyId);
       this.loading = true;
+      this.setNav(this.nav);
 
       this.$axios
         .get("story/info", {

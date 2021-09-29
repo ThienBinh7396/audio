@@ -2,7 +2,7 @@
   <v-snackbar v-model="snackbar">
     <v-layout>
       <v-flex class="body-1 d-flex align-center">
-          {{ toast.text }}
+        {{ toast.text }}
       </v-flex>
       <v-btn :color="getColor()" text @click="snackbar = false"> Close </v-btn>
     </v-layout>
@@ -23,13 +23,13 @@ export default {
     ...mapState("app", ["showToast", "toast"]),
   },
   watch: {
-    showToast: function (val) {
+    showToast: function(val) {
       this.snackbar = true;
     },
   },
   created() {},
   methods: {
-    getColor: function () {
+    getColor: function() {
       switch (this.toast.type) {
         case "success":
           return "#4caf50";
@@ -44,9 +44,3 @@ export default {
   },
 };
 </script>
-
-<style>
-.v-snack__content {
-  padding: 8px 4px 8px 16px;
-}
-</style>

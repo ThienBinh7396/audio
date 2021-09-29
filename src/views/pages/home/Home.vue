@@ -41,63 +41,6 @@
     </v-row>
     <v-row>
       <v-col>
-        <section
-          class="box-center mt-6"
-          v-if="recent_stories && recent_stories.length != 0"
-        >
-          <h2 class="mb-2 text---lightColor">Truyện đã đọc</h2>
-
-          <div class="mt-5">
-            <hooper
-              :settings="hooperSettings"
-              :wheelControl="false"
-              class="small-navigation px-1"
-            >
-              <slide
-                v-for="(item, index) in recent_stories"
-                :key="`_recent-story-${index}`"
-              >
-                <v-card
-                  class="ma-1 mr-4 pa-0 transparent slide-story"
-                  elevation="4"
-                  @click="
-                    $router.push(
-                      `/read/story/${item.story_url}/${item.recentChapter.href}/${item.recentChapter.id}`
-                    )
-                  "
-                >
-                  <div class="pb-0">
-                    <div class="image">
-                      <img :src="getTtvWebImageUrl(item.image)" width="100%" />
-                    </div>
-                    <div class="absolute-top">
-                      <v-chip color="#1b8ee0" label>
-                        {{ item.category_name }}
-                      </v-chip>
-                    </div>
-                    <div class="information">
-                      <div class="name">{{ item.name }}</div>
-                      <div class="tb-link">{{ item.recentChapter.title }}</div>
-                      <div class="continue">
-                        <div>Đọc tiếp</div>
-                        <div class="icon">
-                          <v-icon
-                            class="ld ld-slide-ltr"
-                            color="#1b8ee0"
-                            size="20"
-                            >mdi-chevron-right</v-icon
-                          >
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </v-card>
-              </slide>
-              <hooper-navigation slot="hooper-addons"></hooper-navigation>
-            </hooper>
-          </div>
-        </section>
-
         <div v-for="(slideStory, key) in slideStories" :key="key">
           <section class="box-center mt-6" v-if="slideStory.data.length != 0">
             <slide-story-card
@@ -113,14 +56,12 @@
 
 <script>
 import { mapMutations, mapState } from "vuex";
-import { Hooper, Slide, Navigation as HooperNavigation } from "hooper";
 import SlideStoryCard from "@/views/pages/home/component/SlideStoryCard";
+
+import { HOME_SLIDE_DATA } from "@/constants/constants";
 
 export default {
   components: {
-    Hooper,
-    Slide,
-    HooperNavigation,
     SlideStoryCard,
   },
   data() {
@@ -132,36 +73,7 @@ export default {
         },
       ],
       slideIndex: 0,
-      slides: [
-        {
-          image: "/img/slide1.jpg",
-          url: "story/Mục%20Thần%20Ký/17299",
-        },
-        {
-          image: "/img/slide2.jpg",
-          url: "/story/Phi%20Kiếm%20Vấn%20Đạo/17987",
-        },
-        {
-          image: "/img/slide3.jpg",
-          url:
-            "/story/Phàm%20Nhân%20Tu%20Tiên%20Chi%20Tiên%20Giới%20Thiên/18229",
-        },
-        {
-          image: "/img/slide6.jpg",
-          url: "/story/Tam%20Thốn%20Nhân%20Gian/20640",
-        },
-      ],
-      hooperSettings: {
-        itemsToShow: 1,
-        breakpoints: {
-          576: {
-            itemsToShow: 2,
-          },
-          800: {
-            itemsToShow: 4,
-          },
-        },
-      },
+      slides: HOME_SLIDE_DATA,
       slideStories: {
         recentStories: {
           title: "Truyện đã đọc",
@@ -185,23 +97,21 @@ export default {
       newUpdate: null,
     };
   },
+  created() {
+    this.initialData();
+  },
   mounted() {
     this.setNav(this.nav);
     this.setTopBackground("/img/top_background.jfif");
   },
   computed: {
     ...mapState("app", ["detectMobile", "recentStories"]),
-    recent_stories: {
-      get() {
-        return this.recentStories;
-      },
-      set(val) {
-        this.recent_stories = val;
-      },
-    },
   },
-  created() {
-    this.initialData();
+  watch: {
+    recentStories: function(val) {
+      console.log(val);
+      this.slideStories.recentStories.data = val;
+    },
   },
   methods: {
     ...mapMutations("app", ["setNav", "setTopBackground"]),
@@ -212,11 +122,11 @@ export default {
           story_finish: storyFinish,
           story_starts: storyStarts,
         } = response.data.data;
-        console.log(response.data.data);
 
         this.slideStories.newStories.data = storyNews;
         this.slideStories.finishStories.data = storyFinish;
         this.slideStories.newUpdateStories.data = storyStarts;
+        this.slideStories.recentStories.data = this.recentStories;
       });
     },
   },

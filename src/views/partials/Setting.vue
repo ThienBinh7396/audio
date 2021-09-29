@@ -162,13 +162,10 @@ export default {
     };
   },
   computed: {
-    ...mapState("app", ["config", "detectMobile"]),
+    ...mapState("app", ["audioConfig", "detectMobile"]),
   },
   watch: {
-    config: function (val) {
-      console.log("Audio: ");
-      console.log(val);
-
+    audioConfig: function() {
       this.updateConfig();
     },
   },
@@ -180,18 +177,18 @@ export default {
     });
   },
   methods: {
-    updateConfig: function () {
+    updateConfig: function() {
       if (this.audio) {
-        this.audio.volume = this.config.volume;
-        this.audio.playbackRate = this.config.speed;
+        this.audio.volume = this.audioConfig.volume;
+        this.audio.playbackRate = this.audioConfig.speed;
       }
 
       if (this.audioAnother) {
-        this.audioAnother.volume = this.config.volume;
-        this.audioAnother.playbackRate = this.config.speed;
+        this.audioAnother.volume = this.audioConfig.volume;
+        this.audioAnother.playbackRate = this.audioConfig.speed;
       }
     },
-    startCountDownTimer: function () {
+    startCountDownTimer: function() {
       let timerInput = document.getElementById("countdown-timer-input");
       let num = Number(timerInput.value);
 
@@ -207,7 +204,7 @@ export default {
 
       this.showCountDownTimer(Date.now() + num * 60 * 1000);
     },
-    showCountDownTimer: function (time) {
+    showCountDownTimer: function(time) {
       let that = this;
 
       that.showTimer = true;
@@ -220,7 +217,7 @@ export default {
           minute: "",
           second: "",
         },
-        endCallback: function () {
+        endCallback: function() {
           that.showTimer = false;
 
           that.startSpeak(false);
@@ -235,7 +232,7 @@ export default {
 
       this.countDown.start();
     },
-    checkMax: function () {
+    checkMax: function() {
       let timerInput = document.getElementById("countdown-timer-input");
       let num = Number(timerInput.value);
 
@@ -243,10 +240,10 @@ export default {
         timerInput.value = 720;
       }
     },
-    checkNumber: function ($event) {
+    checkNumber: function($event) {
       return $event.keyCode >= 48 && $event.keyCode <= 57;
     },
-    scrollToTop: function (onlyTop) {
+    scrollToTop: function(onlyTop) {
       let height = document.getElementById(`main-content`).offsetHeight;
 
       let div = document.body;
@@ -273,5 +270,4 @@ export default {
 };
 </script>
 
-<style>
-</style>
+<style></style>

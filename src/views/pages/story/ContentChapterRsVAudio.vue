@@ -90,7 +90,7 @@
         <div class="title text-center">{{ storyInfo.chapter }}</div>
         <div
           class="chapter-content mt-12 mb-12"
-          :style="{ 'font-size': `${config.fontSize}px` }"
+          :style="{ 'font-size': `${audioConfig.fontSize}px` }"
         >
           <p
             :class="{ active: index == currentLine }"
@@ -257,18 +257,15 @@ export default {
     this.init();
   },
   computed: {
-    ...mapState("app", ["config", "detectMobile", "recentStories"]),
+    ...mapState("app", ["audioConfig", "detectMobile", "recentStories"]),
   },
   watch: {
-    $route: function (val) {
+    $route: function(val) {
       this.dialog = false;
 
       this.init();
     },
-    config: function (val) {
-      console.log("Audio: ");
-      console.log(val);
-
+    audioConfig: function(val) {
       this.updateConfig();
     },
   },
@@ -280,7 +277,7 @@ export default {
       "setTopBackground",
     ]),
     ...mapActions("app", ["showToast", "updateRecentlyStory"]),
-    init: function () {
+    init: function() {
       let { story_url, chapter_url, chapter_id } = this.$route.params;
 
       this.story_url = story_url;
@@ -290,7 +287,7 @@ export default {
       this.loading = true;
       this.loadContent();
     },
-    loadContent: function () {
+    loadContent: function() {
       this.$axios
         .get(`/story/read`, {
           params: {
@@ -374,18 +371,18 @@ export default {
           }
         });
     },
-    updateConfig: function () {
+    updateConfig: function() {
       if (this.audio) {
-        this.audio.volume = this.config.volume;
-        this.audio.playbackRate = this.config.speed;
+        this.audio.volume = this.audioConfig.volume;
+        this.audio.playbackRate = this.audioConfig.speed;
       }
 
       if (this.audioAnother) {
-        this.audioAnother.volume = this.config.volume;
-        this.audioAnother.playbackRate = this.config.speed;
+        this.audioAnother.volume = this.audioConfig.volume;
+        this.audioAnother.playbackRate = this.audioConfig.speed;
       }
     },
-    select: function () {
+    select: function() {
       let selectText = "";
 
       if (window.getSelection) {
@@ -400,7 +397,7 @@ export default {
         this.speak(selectText, false);
       }
     },
-    startSpeak: function (speak = true) {
+    startSpeak: function(speak = true) {
       this.reading = !this.reading;
       if (!speak) this.reading = false;
 
@@ -417,13 +414,10 @@ export default {
         this.audioAnother.pause();
       }
     },
-    loadstart: function (ref) {
-      console.log(ref);
-    },
-    play: function (ref) {
+    play: function() {
       this.updateConfig();
     },
-    playing: function (ref) {
+    playing: function(ref) {
       if (ref == "audio") {
         this.audioCountError = 0;
       } else {
@@ -435,7 +429,7 @@ export default {
         this[ref].currentTime = 0;
       }
     },
-    ended: function () {
+    ended: function() {
       if (
         this.currentLine == this.storyInfo.content.length - 1 &&
         this.getIndex() != this.chapters.length - 1
@@ -455,7 +449,7 @@ export default {
         this.next();
       }
     },
-    error: function (ref) {
+    error: function(ref) {
       setTimeout(() => {
         console.log("error: ", ref);
 
@@ -499,7 +493,7 @@ export default {
         }
       }, 3000);
     },
-    getUrl: function (index) {
+    getUrl: function(index) {
       let text = encodeURI(this.storyInfo.content[index]);
       //let text = this.storyInfo.content[index];
 
@@ -512,11 +506,11 @@ export default {
       return `https://code.responsivevoice.org/getvoice.php?text=${text}&lang=vi&engie=g1&rate=0.53&key=32hDX4HJ&volume=1&gender=female`;
       //return `https://texttospeech.responsivevoice.org/v1/text:synthesize?text=${text}&lang=vi&engine=g1&rate=0.53&volume=1&key=32hDX4HJ&gender=female`
     },
-    getUrlWithText: function (text) {
+    getUrlWithText: function(text) {
       return `https://code.responsivevoice.org/getvoice.php?text=${text}&lang=vi&engie=g1&rate=0.53&key=32hDX4HJ&volume=1&gender=female`;
       //return `https://texttospeech.responsivevoice.org/v1/text:synthesize?text=${text}&lang=vi&engine=g1&rate: 0.53&volume=1&key=32hDX4HJ&gender=female`
     },
-    speak: function () {
+    speak: function() {
       let a = this.currentAudio == "audio" ? "audioAnother" : "audio";
 
       this[a].src =
@@ -532,7 +526,7 @@ export default {
 
       this.scrollText();
     },
-    startSpeakLine: function (index) {
+    startSpeakLine: function(index) {
       if (this.currentLine == index) {
         this.startSpeak();
 
@@ -549,7 +543,7 @@ export default {
 
       this.speak();
     },
-    next: function (refresh = false) {
+    next: function(refresh = false) {
       if (!this.reading) return;
 
       if (refresh) {
@@ -581,7 +575,7 @@ export default {
       this.speak();
     },
 
-    nextChapter: function () {
+    nextChapter: function() {
       if (this.chapters.length == 0) {
         this.showToast({
           type: "info",
@@ -610,7 +604,7 @@ export default {
       }
       console.log(this.chapter_id, index);
     },
-    prevChapter: function () {
+    prevChapter: function() {
       this.loadingNewChapter = true;
 
       if (this.chapters.length == 0) {
@@ -637,7 +631,7 @@ export default {
       }
       console.log(this.chapter_id, index);
     },
-    scrollText: function () {
+    scrollText: function() {
       let objDiv = document.getElementById(`js-line-${this.currentLine}`);
       if (!objDiv) return;
 
@@ -648,7 +642,7 @@ export default {
         100
       );
     },
-    scrollToTop: function (onlyTop) {
+    scrollToTop: function(onlyTop) {
       let height = document.getElementById(`main-content`).offsetHeight;
 
       let div = document.body;
@@ -671,7 +665,7 @@ export default {
         300
       );
     },
-    scrollTo: function (num) {
+    scrollTo: function(num) {
       let offset = document.body.scrollTop + num;
 
       $(document.body).animate(
@@ -681,16 +675,16 @@ export default {
         100
       );
     },
-    getChapters: function (chaps) {
+    getChapters: function(chaps) {
       this.chapters = chaps;
     },
-    getIndex: function () {
+    getIndex: function() {
       return this.chapters.findIndex((it) => it.chapterId == this.chapter_id);
     },
-    checkNumber: function ($event) {
+    checkNumber: function($event) {
       return $event.keyCode >= 48 && $event.keyCode <= 57;
     },
-    checkMax: function () {
+    checkMax: function() {
       let timerInput = document.getElementById("countdown-timer-input");
       let num = Number(timerInput.value);
 
@@ -698,7 +692,7 @@ export default {
         timerInput.value = 720;
       }
     },
-    startCountDownTimer: function () {
+    startCountDownTimer: function() {
       let timerInput = document.getElementById("countdown-timer-input");
       let num = Number(timerInput.value);
 
@@ -714,7 +708,7 @@ export default {
 
       this.showCountDownTimer(Date.now() + num * 60 * 1000);
     },
-    showCountDownTimer: function (time) {
+    showCountDownTimer: function(time) {
       let that = this;
 
       that.showTimer = true;
@@ -727,7 +721,7 @@ export default {
           minute: "",
           second: "",
         },
-        endCallback: function () {
+        endCallback: function() {
           that.showTimer = false;
 
           that.startSpeak(false);

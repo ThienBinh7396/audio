@@ -5,12 +5,9 @@ import "./plugins/components";
 import "./plugins/apiService";
 import "./plugins/helpers/image";
 
-import PerfectScrollbar from "vue2-perfect-scrollbar";
 import "vue2-perfect-scrollbar/dist/vue2-perfect-scrollbar.css";
-Vue.use(PerfectScrollbar);
-
 import "hooper/dist/hooper.css";
-import "@/assets/css/main.css";
+import "@/assets/css/main/main.scss";
 import "@/assets/css/loading.css";
 import "@/assets/css/animation.css";
 

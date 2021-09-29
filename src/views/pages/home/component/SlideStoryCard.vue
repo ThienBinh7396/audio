@@ -1,13 +1,13 @@
 <template>
   <div>
-    <h2 class="mb-2 text---lightColor">{{ listTitle }}</h2>
+    <h2 class="mb-2">{{ listTitle }}</h2>
     <div class="mt-5">
       <hooper
         :settings="hooperSettings"
         :wheelControl="false"
         class="small-navigation px-1"
       >
-        <slide v-for="story in stories" :key="`_recent-story-${story.id}`">
+        <slide class="card-container" v-for="story in stories" :key="story.id">
           <story-card :data="story" />
         </slide>
         <hooper-navigation slot="hooper-addons"></hooper-navigation>
@@ -40,10 +40,13 @@ export default {
       hooperSettings: {
         itemsToShow: 1,
         breakpoints: {
-          576: {
+          480: {
             itemsToShow: 2,
           },
-          800: {
+          600: {
+            itemsToShow: 3,
+          },
+          960: {
             itemsToShow: 4,
           },
         },
@@ -53,4 +56,20 @@ export default {
 };
 </script>
 
-<style></style>
+<style lang="scss" scoped>
+.card-container {
+  width: 100% !important;
+
+  @media screen and (min-width: 480px) {
+    width: 50% !important;
+  }
+
+  @media screen and (min-width: 600px) {
+    width: 33.33% !important;
+  }
+
+  @media screen and (min-width: 960px) {
+    width: 25% !important;
+  }
+}
+</style>

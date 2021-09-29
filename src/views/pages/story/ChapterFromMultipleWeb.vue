@@ -75,7 +75,7 @@
       <div class="title text-center">{{ recentStory.data.chapterTitle }}</div>
       <div
         class="chapter-content mt-12 mb-12"
-        :style="{ 'font-size': `${config.fontSize}px` }"
+        :style="{ 'font-size': `${audioConfig.fontSize}px` }"
       >
         <p
           class="px-3"
@@ -136,10 +136,9 @@ export default {
     };
   },
   computed: {
-    ...mapState("app", ["showNav", "config", "recentStory", "testUrl"]),
+    ...mapState("app", ["audioConfig", "recentStory", "testUrl"]),
   },
   mounted() {
-    this.setShowNav(false);
     if (
       this.recentStory &&
       this.recentStory.data &&
@@ -176,12 +175,7 @@ export default {
     });
   },
   methods: {
-    ...mapMutations("app", [
-      "setShowNav",
-      "setConfig",
-      "setRecentStory",
-      "setTestURL",
-    ]),
+    ...mapMutations("app", ["setConfig", "setRecentStory", "setTestURL"]),
     ...mapActions("app", ["showToast"]),
     gotoChapter() {
       this.loading = true;
@@ -234,7 +228,7 @@ export default {
       this.url = isNext ? data.nextChapter : data.prevChapter;
       this.gotoChapter();
     },
-    getUrl: function (index) {
+    getUrl: function(index) {
       console.log("Index: ", index, this.recentStory);
 
       if (
@@ -256,28 +250,28 @@ export default {
       return `https://code.responsivevoice.org/getvoice.php?text=${text}&lang=vi&engie=g1&rate=0.53&key=32hDX4HJ&volume=1&gender=female`;
       //return `https://texttospeech.responsivevoice.org/v1/text:synthesize?text=${text}&lang=vi&engine=g1&rate=0.53&volume=1&key=32hDX4HJ&gender=female`
     },
-    getUrlWithText: function (text) {
+    getUrlWithText: function(text) {
       return `https://code.responsivevoice.org/getvoice.php?text=${text}&lang=vi&engie=g1&rate=0.53&key=32hDX4HJ&volume=1&gender=female`;
       //return `https://texttospeech.responsivevoice.org/v1/text:synthesize?text=${text}&lang=vi&engine=g1&rate: 0.53&volume=1&key=32hDX4HJ&gender=female`
     },
-    loadstart: function (ref) {
+    loadstart: function(ref) {
       console.log(ref);
     },
-    play: function (ref) {
+    play: function(ref) {
       this.updateConfig();
     },
-    updateConfig: function () {
+    updateConfig: function() {
       if (this.audio) {
-        this.audio.volume = this.config.volume;
-        this.audio.playbackRate = this.config.speed;
+        this.audio.volume = this.audioConfig.volume;
+        this.audio.playbackRate = this.audioConfig.speed;
       }
 
       if (this.audioAnother) {
-        this.audioAnother.volume = this.config.volume;
-        this.audioAnother.playbackRate = this.config.speed;
+        this.audioAnother.volume = this.audioConfig.volume;
+        this.audioAnother.playbackRate = this.audioConfig.speed;
       }
     },
-    playing: function (ref) {
+    playing: function(ref) {
       if (ref == "audio") {
         this.audioCountError = 0;
       } else {
@@ -289,10 +283,10 @@ export default {
         this[ref].currentTime = 0;
       }
     },
-    getIndex: function () {
+    getIndex: function() {
       return this.chapters.findIndex((it) => it.chapterId == this.chapter_id);
     },
-    ended: function () {
+    ended: function() {
       if (
         this.currentLine ==
         this.recentStory.data.content.length - 1
@@ -314,7 +308,7 @@ export default {
         this.next();
       }
     },
-    next: function (refresh = false) {
+    next: function(refresh = false) {
       if (!this.reading) return;
 
       if (refresh) {
@@ -346,7 +340,7 @@ export default {
       this.speak();
     },
 
-    error: function (ref) {
+    error: function(ref) {
       setTimeout(() => {
         console.log("error: ", ref);
 
@@ -390,7 +384,7 @@ export default {
         }
       }, 3000);
     },
-    startSpeak: function (speak = true) {
+    startSpeak: function(speak = true) {
       this.reading = !this.reading;
       if (!speak) this.reading = false;
 
@@ -408,7 +402,7 @@ export default {
       }
       console.log(speak, this.reading, this.currentLine);
     },
-    speak: function () {
+    speak: function() {
       if (
         !this.recentStory ||
         !this.recentStory.data ||
@@ -431,7 +425,7 @@ export default {
 
       this.scrollText();
     },
-    scrollText: function () {
+    scrollText: function() {
       let objDiv = document.getElementById(`js-line-${this.currentLine}`);
       if (!objDiv) return;
 
@@ -442,7 +436,7 @@ export default {
         100
       );
     },
-    scrollToTop: function (onlyTop) {
+    scrollToTop: function(onlyTop) {
       let height = document.getElementById(`main-content`).offsetHeight;
 
       let div = document.body;
