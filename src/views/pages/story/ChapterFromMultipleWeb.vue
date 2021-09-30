@@ -4,7 +4,6 @@
       <audio
         preload="metadata"
         id="speech-audio"
-        @loadstart="loadstart('audio')"
         @error="error('audio')"
         @ended="ended('audio')"
         @play="play('audio')"
@@ -13,7 +12,6 @@
       <audio
         preload="metadata"
         id="speech-audio-another"
-        @loadstart="loadstart('audioAnother')"
         @error="error('audioAnother')"
         @ended="ended('audioAnother')"
         @play="play('audioAnother')"
@@ -253,9 +251,6 @@ export default {
     getUrlWithText: function(text) {
       return `https://code.responsivevoice.org/getvoice.php?text=${text}&lang=vi&engie=g1&rate=0.53&key=32hDX4HJ&volume=1&gender=female`;
       //return `https://texttospeech.responsivevoice.org/v1/text:synthesize?text=${text}&lang=vi&engine=g1&rate: 0.53&volume=1&key=32hDX4HJ&gender=female`
-    },
-    loadstart: function(ref) {
-      console.log(ref);
     },
     play: function(ref) {
       this.updateConfig();

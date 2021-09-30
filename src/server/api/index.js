@@ -1,6 +1,8 @@
 const express = require("express");
 const router = express.Router();
 
+const gtts = require("node-gtts")("vi");
+
 const path = require("path");
 
 const request = require("request");
@@ -39,14 +41,14 @@ function formatDate(str) {
 }
 
 router.get("/wake-up", (req, res) => {
-  let {accept} = req.headers;
-  
-  if(!accept || accept != 'thienbinh'){
+  let { accept } = req.headers;
+
+  if (!accept || accept != 'thienbinh') {
     res.send('Permission deny...');
     return;
   }
-  
-  
+
+
   request("https://api.ipify.org/", (err, resp, body) => {
     console.log(body);
 
@@ -214,144 +216,9 @@ router.post("/story/fetchContentByUrl", async (req, res) => {
 
 const axios = require("axios");
 
-router.get("/xxx", (req, res) => {
-  axios
-    .get("https://m.truyen.tangthuvien.vn/doc-truyen/23003", {
-      get_list_chapter: "23003"
-    })
-    .then(rs => {
-      let { data } = rs;
-      res.send(data);
-    })
-    .catch(err => {
-      console.log(err);
-
-      res.send("err");
-    });
-});
-
-async function getSpeechFpt(text, time = 0) {
-  return new Promise(res => {
-    axios
-      .get("https://speech.openfpt.vn/speech", {
-        params: {
-          "voice-type": "new",
-          text: text,
-          gender: "banmai",
-          speed: 0
-        }
-      })
-      .then(rs => {
-        let { data } = rs;
-
-        res(data);
-      })
-      .catch(err => {
-        if (time == 3) {
-          res({ Url: "" });
-        }
-        console.log(time);
-
-        setTimeout(async () => {
-          let rs = await getSpeechFpt(text, time + 1);
-        }, 2000);
-      });
-  });
-}
-
-async function getSpeechGoole(text, time = 0) {
-  return new Promise(res => {
-    axios
-      .get("https://translate.google.com/translate_tts", {
-        params: {
-          e: "UTF-8",
-          total: 1,
-          idx: 0,
-          client: "tw-ob",
-          tl: "vi",
-          q:
-            '"Hách" một cái 12 tuổi tả hữu mái tóc màu đen nam hài hiện đang vung lên một cái'
-        }
-      })
-
-      .then(rs => {
-        let { data } = rs;
-        console.log(data);
-        res(data);
-      })
-      .catch(err => {
-        if (time == 3) {
-          res({ data: null });
-        }
-        console.log(time);
-
-        setTimeout(async () => {
-          let rs = await getSpeechGoole(text, time + 1);
-          res(rs);
-        }, 2000);
-      });
-  });
-}
-
-async function getSpeechVn(text, time = 0) {
-  return new Promise(res => {
-    axios
-      .post(
-        "http://cloudtalk.vn/tts",
-        {
-          style: "fast",
-          ref: "http://www.vnspeech.com/",
-          sig: "reserved",
-          pid: "reserved",
-          uid: "reserved",
-          otp: "reserved!",
-          text: text
-        },
-        {
-          headers: { "X-Requested-With": "XMLHttpRequest" },
-          Cookie:
-            "_ga=GA1.2.1370980771.1579148191; _gid=GA1.2.1089472553.1579148191; _gat=1",
-          Host: "cloudtalk.vn",
-          Origin: "http://cloudtalk.vn",
-          Referer: "http://cloudtalk.vn/nhmtts-online.html"
-        }
-      )
-
-      .then(rs => {
-        let { data } = rs;
-        console.log(data);
-        res({ Url: `http://cloudtalk.vn/ttsoutput?id=${data}` });
-      })
-      .catch(err => {
-        let { response } = err;
-        console.log(response.data);
-        if (time == 3) {
-          res({ Url: null });
-
-          return;
-        }
-
-        setTimeout(async () => {
-          let rs = await getSpeechVn(text, time + 1);
-          res(rs);
-        }, 2000);
-      });
-  });
-}
-
 router.post("/textToSpeech", async (req, res) => {
-  let { type, text } = req.body;
-
-  switch (type) {
-    case "fpt":
-      res.send(await getSpeechFpt(text));
-      break;
-    case "google":
-      res.send({ data: await getSpeechGoole(text) });
-
-    case "vnspeech":
-      res.send(await getSpeechVn(text));
-  }
+  res.set({ "Content-Type": "audio/mpeg" });
+  gtts.stream(req.query.text).pipe(res);
 });
 
 module.exports = router;

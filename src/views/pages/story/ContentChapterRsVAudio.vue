@@ -8,7 +8,6 @@
         <audio
           preload="metadata"
           id="speech-audio"
-          @loadstart="loadstart('audio')"
           @error="error('audio')"
           @ended="ended('audio')"
           @play="play('audio')"
@@ -17,7 +16,6 @@
         <audio
           preload="metadata"
           id="speech-audio-another"
-          @loadstart="loadstart('audioAnother')"
           @error="error('audioAnother')"
           @ended="ended('audioAnother')"
           @play="play('audioAnother')"
@@ -367,7 +365,9 @@ export default {
           );
 
           if (index >= 0) {
-            this.setTopBackground(imageUrl(this.recentStories[index].image));
+            this.setTopBackground(
+              this.getTtvWebImageUrl(this.recentStories[index].image)
+            );
           }
         });
     },

@@ -6,14 +6,12 @@ const app = express();
 const logger = require("morgan");
 const api = require("./src/server/api/index.js");
 
-const tts = require("./src/server/textToSpeech");
-
 app.use(logger("dev"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
 //access cross domain
-const allowCrossDomain = function(req, res, next) {
+const allowCrossDomain = function (req, res, next) {
   res.header(
     "Access-Control-Allow-Headers",
     "Origin, X-Requested-With, Content-Type, Accept, Access-Control-Allow-Origin, x-access-token"
@@ -28,10 +26,8 @@ app.use("/", serveStatic(path.join(__dirname, "/dist")));
 
 app.use("/api", api);
 
-app.use("/v1/", tts);
-
 // this * route is to serve project on different page routes except root `/`
-app.get(/.*/, function(req, res) {
+app.get(/.*/, function (req, res) {
   res.sendFile(path.join(__dirname, "/dist/index.html"));
 });
 app.use(logger("dev"));

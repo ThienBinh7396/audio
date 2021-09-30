@@ -59,6 +59,8 @@
 
 <script>
 import { mapState, mapActions } from "vuex";
+import _ from "lodash";
+
 export default {
   data() {
     return {
@@ -109,12 +111,11 @@ export default {
       this.configChange();
     },
     configChange: function() {
-      console.log(this.tempConfig);
       this.updateConfig(this.tempConfig);
     },
   },
   mounted() {
-    this.tempConfig = JSON.parse(JSON.stringify(this.config));
+    this.tempConfig = _.cloneDeep(this.audioConfig);
   },
 };
 </script>
