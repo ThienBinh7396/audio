@@ -1,9 +1,10 @@
 import Vue from "vue";
 import Axios from "axios";
 
-console.log(process.env.NODE_ENV)
+import { ENVIRONMENT } from "@/constants/constants"
+
+const API_BASE_URL = process.env.NODE_ENV === ENVIRONMENT.PRODUCTION ? 'https://my-audio1.herokuapp.com/api/' : "http://localhost:7000/api/"
 
 Vue.prototype.$axios = Axios.create({
-  // baseURL: 'https://my-audio1.herokuapp.com/api/'
-  baseURL: "http://localhost:7000/api/",
+  baseURL: API_BASE_URL,
 });

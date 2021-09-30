@@ -16,3 +16,8 @@ export const HOME_SLIDE_DATA = [
     url: "/story/Tam%20Thốn%20Nhân%20Gian/20640",
   },
 ];
+
+export const ENVIRONMENT = {
+  PRODUCTION: "production",
+  DEVELOPMENT: "development"
+}
