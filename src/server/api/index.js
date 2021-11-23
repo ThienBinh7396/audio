@@ -3,7 +3,7 @@ const router = express.Router();
 
 const gtts = require("node-gtts")("vi");
 
-const MultiStream = require('multistream');
+const MultiStream = require("multistream");
 
 const path = require("path");
 
@@ -17,7 +17,6 @@ const ttvCrawler = require("./../utils/TtvCrawler");
 const filePath = path.join(__dirname + "./../../../dist/logs/log.txt");
 
 const storyCrawler = require("./../utils/StoryCrawler");
-
 
 function formatNumber(num) {
   return num > 9 ? num : `0${num}`;
@@ -38,18 +37,17 @@ function formatDate(str) {
 
   return {
     format: f,
-    fullType: full
+    fullType: full,
   };
 }
 
 router.get("/wake-up", (req, res) => {
   let { accept } = req.headers;
 
-  if (!accept || accept != 'thienbinh') {
-    res.send('Permission deny...');
+  if (!accept || accept != "thienbinh") {
+    res.send("Permission deny...");
     return;
   }
-
 
   request("https://api.ipify.org/", (err, resp, body) => {
     console.log(body);
@@ -65,7 +63,7 @@ router.get("/wake-up", (req, res) => {
 - ${formatDate(Date.now()).fullType}
   ${body}`;
 
-      fs.appendFile(fd, textAppend, "utf8", err => {
+      fs.appendFile(fd, textAppend, "utf8", (err) => {
         if (err) {
           console.log(err);
           res.send("err: " + err.code);
@@ -85,7 +83,7 @@ router.get("/story", (req, res) => {
   if (!title)
     return res.send(Status.getStatus("error", "Title of story is required"));
 
-  ttvCrawler.getInformationStory("Vu sư bất hủ").then(rs => {
+  ttvCrawler.getInformationStory("Vu sư bất hủ").then((rs) => {
     if (rs) {
       res.send(Status.getStatus("success", "Successful", rs));
     } else {
@@ -102,7 +100,7 @@ router.get("/story/info", (req, res) => {
   if (!id_story)
     return res.send(Status.getStatus("error", "Id of story is required"));
 
-  ttvCrawler.getFullInformationStory(id_story).then(rs => {
+  ttvCrawler.getFullInformationStory(id_story).then((rs) => {
     if (rs) {
       res.send(Status.getStatus("success", "Successful", rs));
     } else {
@@ -117,7 +115,7 @@ router.get("/story/chapter", (req, res) => {
   if (!storyId)
     return res.send(Status.getStatus("error", "Id of story is required"));
 
-  ttvCrawler.getChapterByStoryId(storyId).then(rs => {
+  ttvCrawler.getChapterByStoryId(storyId).then((rs) => {
     if (rs) {
       res.send(Status.getStatus("success", "Successful", rs));
     } else {
@@ -134,7 +132,7 @@ router.get("/story/chapter-with-paginate", (req, res) => {
   if (!storyId)
     return res.send(Status.getStatus("error", "Id of story is required"));
 
-  ttvCrawler.getPaginationChapterOfStory(storyId, page).then(rs => {
+  ttvCrawler.getPaginationChapterOfStory(storyId, page).then((rs) => {
     if (rs) {
       res.send(Status.getStatus("success", "Successful", rs));
     } else {
@@ -150,7 +148,7 @@ router.get("/story/search", (req, res) => {
 
   if (!query) return res.send(Status.getStatus("error", "query is required!"));
 
-  ttvCrawler.searchStoryByName(query).then(rs => {
+  ttvCrawler.searchStoryByName(query).then((rs) => {
     if (rs) {
       res.send(Status.getStatus("success", "Successful", rs));
     } else {
@@ -167,7 +165,7 @@ router.get("/story/read", (req, res) => {
       Status.getStatus("error", "Url story and url chapter is required!")
     );
 
-  ttvCrawler.getContentChapterOfStory(story_url, chapter_url).then(rs => {
+  ttvCrawler.getContentChapterOfStory(story_url, chapter_url).then((rs) => {
     if (rs) {
       res.send(Status.getStatus("success", "Successful", rs));
     } else {
@@ -186,7 +184,7 @@ router.get("/story/read-chapter-url", (req, res) => {
       Status.getStatus("error", "Url story and url chapter is required!")
     );
 
-  ttvCrawler.getContentChapterOfStoryByChapterURL(chapter_url).then(rs => {
+  ttvCrawler.getContentChapterOfStoryByChapterURL(chapter_url).then((rs) => {
     if (rs) {
       res.send(Status.getStatus("success", "Successful", rs));
     } else {
@@ -198,7 +196,7 @@ router.get("/story/read-chapter-url", (req, res) => {
 });
 
 router.get("/story/home", (req, res) => {
-  ttvCrawler.getContentHomePage().then(rs => {
+  ttvCrawler.getContentHomePage().then((rs) => {
     if (rs) {
       res.send(Status.getStatus("success", "Successful", rs));
     } else {
@@ -211,27 +209,26 @@ router.get("/story/home", (req, res) => {
 
 router.post("/story/fetchContentByUrl", async (req, res) => {
   let { chapter_url } = req.body;
-  const result = await storyCrawler.fetchContent(chapter_url)
+  const result = await storyCrawler.fetchContent(chapter_url);
 
-  res.send(result.error ? Status.getStatus("error", result.error.message, result) : Status.getStatus("success", "Successful", result))
-})
-
-
-
-
+  res.send(
+    result.error
+      ? Status.getStatus("error", result.error.message, result)
+      : Status.getStatus("success", "Successful", result)
+  );
+});
 
 router.get("/story/textToSpeech", async (req, res) => {
-  console.log(req.query.text)
   res.set({ "Content-Type": "audio/mpeg" });
+
+  const splitText = req.query.text.split(/,/);
+
   try {
     // gtts.stream(req.query.text).pipe(res);
-    const test = gtts.stream("Ba cân trở lên cá chép cửu đầu, năm cân trở lên Thảo Ngư mười một đầu")
-
-const test2 = gtts.stream("Ba cân trở lên cá chép cửu đầu")
-MultiStream([test, test2]).pipe(res)
+    MultiStream(splitText.map(text => gtts.stream(text))).pipe(res);
   } catch (error) {
-    console.log("Error: ", error)
-    res.send(null)
+    console.log("Error: ", error);
+    res.send(null);
   }
 });
 
