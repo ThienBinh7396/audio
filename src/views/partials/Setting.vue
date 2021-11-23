@@ -164,11 +164,6 @@ export default {
   computed: {
     ...mapState("app", ["audioConfig", "detectMobile"]),
   },
-  watch: {
-    audioConfig: function() {
-      this.updateConfig();
-    },
-  },
   mounted() {
     document.body.addEventListener("scroll", () => {
       this.scrollTop = document.body.scrollTop < this.currentScrollPoint;
@@ -177,17 +172,6 @@ export default {
     });
   },
   methods: {
-    updateConfig: function() {
-      if (this.audio) {
-        this.audio.volume = this.audioConfig.volume;
-        this.audio.playbackRate = this.audioConfig.speed;
-      }
-
-      if (this.audioAnother) {
-        this.audioAnother.volume = this.audioConfig.volume;
-        this.audioAnother.playbackRate = this.audioConfig.speed;
-      }
-    },
     startCountDownTimer: function() {
       let timerInput = document.getElementById("countdown-timer-input");
       let num = Number(timerInput.value);

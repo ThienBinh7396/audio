@@ -84,7 +84,7 @@ export default {
     },
   },
   methods: {
-    ...mapActions("app", ["updateConfig"]),
+    ...mapActions("app", ["updateAudioConfig"]),
     volumeUp: function(up) {
       console.log(this.tempConfig.volume);
       if (up) {
@@ -111,7 +111,7 @@ export default {
       this.configChange();
     },
     configChange: function() {
-      this.updateConfig(this.tempConfig);
+      this.updateAudioConfig(this.tempConfig);
     },
   },
   mounted() {

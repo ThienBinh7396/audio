@@ -249,6 +249,7 @@ export default {
       audioAnother: null,
       audioAnotherCountError: 0,
       currentAudio: "audio",
+      baseApiUrl: "",
     };
   },
   created() {
@@ -264,7 +265,7 @@ export default {
       this.init();
     },
     audioConfig: function(val) {
-      this.updateConfig();
+      this.updateAudioConfig();
     },
   },
   methods: {
@@ -281,6 +282,8 @@ export default {
       this.story_url = story_url;
       this.chapter_url = chapter_url;
       this.chapter_id = chapter_id;
+
+      this.baseApiUrl = this.$axios.defaults.baseURL;
 
       this.loading = true;
       this.loadContent();
@@ -371,7 +374,7 @@ export default {
           }
         });
     },
-    updateConfig: function() {
+    updateAudioConfig: function() {
       if (this.audio) {
         this.audio.volume = this.audioConfig.volume;
         this.audio.playbackRate = this.audioConfig.speed;
@@ -415,7 +418,7 @@ export default {
       }
     },
     play: function() {
-      this.updateConfig();
+      this.updateAudioConfig();
     },
     playing: function(ref) {
       if (ref == "audio") {
@@ -495,20 +498,10 @@ export default {
     },
     getUrl: function(index) {
       let text = encodeURI(this.storyInfo.content[index]);
-      //let text = this.storyInfo.content[index];
-
-      console.log(this.storyInfo.content[index]);
-
-      // if (text[text.length - 1] == '.') {
-      //     text = text.substring(0, text.length - 1)
-      // }
-
-      return `https://code.responsivevoice.org/getvoice.php?text=${text}&lang=vi&engie=g1&rate=0.53&key=32hDX4HJ&volume=1&gender=female`;
-      //return `https://texttospeech.responsivevoice.org/v1/text:synthesize?text=${text}&lang=vi&engine=g1&rate=0.53&volume=1&key=32hDX4HJ&gender=female`
+      return `${this.baseApiUrl}story/textToSpeech?text=${text}&lang=vi&engie=g1&rate=0.53&key=32hDX4HJ&volume=1&gender=female`;
     },
     getUrlWithText: function(text) {
-      return `https://code.responsivevoice.org/getvoice.php?text=${text}&lang=vi&engie=g1&rate=0.53&key=32hDX4HJ&volume=1&gender=female`;
-      //return `https://texttospeech.responsivevoice.org/v1/text:synthesize?text=${text}&lang=vi&engine=g1&rate: 0.53&volume=1&key=32hDX4HJ&gender=female`
+      return `${this.baseApiUrl}story/textToSpeech?text=${text}&lang=vi&engie=g1&rate=0.53&key=32hDX4HJ&volume=1&gender=female`;
     },
     speak: function() {
       let a = this.currentAudio == "audio" ? "audioAnother" : "audio";
@@ -743,7 +736,7 @@ export default {
     this.audio = document.getElementById("speech-audio");
     this.audioAnother = document.getElementById("speech-audio-another");
 
-    this.updateConfig();
+    this.updateAudioConfig();
 
     document.body.addEventListener("scroll", () => {
       this.scrollTop = document.body.scrollTop < this.currentScrollPoint;

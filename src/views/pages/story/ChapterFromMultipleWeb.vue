@@ -173,7 +173,7 @@ export default {
     });
   },
   methods: {
-    ...mapMutations("app", ["setConfig", "setRecentStory", "setTestURL"]),
+    ...mapMutations("app", ["setAudioConfig", "setRecentStory", "setTestURL"]),
     ...mapActions("app", ["showToast"]),
     gotoChapter() {
       this.loading = true;
@@ -253,9 +253,9 @@ export default {
       //return `https://texttospeech.responsivevoice.org/v1/text:synthesize?text=${text}&lang=vi&engine=g1&rate: 0.53&volume=1&key=32hDX4HJ&gender=female`
     },
     play: function(ref) {
-      this.updateConfig();
+      this.updateAudioConfig();
     },
-    updateConfig: function() {
+    updateAudioConfig: function() {
       if (this.audio) {
         this.audio.volume = this.audioConfig.volume;
         this.audio.playbackRate = this.audioConfig.speed;

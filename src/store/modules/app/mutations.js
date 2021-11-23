@@ -1,7 +1,7 @@
 import { set, toggle } from "@/utils/vuex";
 
 export default {
-  setConfig: set("config"),
+  setAudioConfig: set("audioConfig"),
   setTestURL: set("testUrl"),
   setRecentStory: set("recentStory"),
   setRecentStories: set("recentStories"),

@@ -3,6 +3,8 @@ const router = express.Router();
 
 const gtts = require("node-gtts")("vi");
 
+const MultiStream = require('multistream');
+
 const path = require("path");
 
 const request = require("request");
@@ -214,11 +216,23 @@ router.post("/story/fetchContentByUrl", async (req, res) => {
   res.send(result.error ? Status.getStatus("error", result.error.message, result) : Status.getStatus("success", "Successful", result))
 })
 
-const axios = require("axios");
 
-router.post("/textToSpeech", async (req, res) => {
+
+
+
+router.get("/story/textToSpeech", async (req, res) => {
+  console.log(req.query.text)
   res.set({ "Content-Type": "audio/mpeg" });
-  gtts.stream(req.query.text).pipe(res);
+  try {
+    // gtts.stream(req.query.text).pipe(res);
+    const test = gtts.stream("Ba cân trở lên cá chép cửu đầu, năm cân trở lên Thảo Ngư mười một đầu")
+
+const test2 = gtts.stream("Ba cân trở lên cá chép cửu đầu")
+MultiStream([test, test2]).pipe(res)
+  } catch (error) {
+    console.log("Error: ", error)
+    res.send(null)
+  }
 });
 
 module.exports = router;
