@@ -1,4 +1,3 @@
-const { LOG_FILE_PATH } = require("./../constants/constants");
 const fs = require("fs");
 
 class Logger {

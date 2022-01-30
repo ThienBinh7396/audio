@@ -5,10 +5,7 @@ const gtts = require("node-gtts")("vi");
 
 const MultiStream = require("multistream");
 
-const path = require("path");
-
 const request = require("request");
-const fs = require("fs");
 
 const Logger = require("./../utils/Logger")
 
@@ -16,15 +13,13 @@ const Status = require("./../utils/Status");
 
 const ttvCrawler = require("./../utils/TtvCrawler");
 
-const filePath = path.join(__dirname + "./../../../dist/logs/log.txt");
-
 const storyCrawler = require("./../utils/StoryCrawler");
 const { LOG_FILE_PATH } = require("../constants/constants");
 
 router.get("/wake-up", (req, res) => {
-  let { accept } = req.headers;
+  let { accepter } = req.headers;
 
-  if (!accept || accept != "thienbinh") {
+  if (!accepter || accepter != "thienbinh") {
     res.send("Permission deny...");
     return;
   }
