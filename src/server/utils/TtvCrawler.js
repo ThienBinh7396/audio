@@ -27,7 +27,7 @@ class TtvCrawler {
 
     // This url is used to get full information of story.
     // Method: Post
-    // Params: id_story
+    // Params: idStory
     this.baseGetFullInformationStoryUrl =
       "https://nae.vn/ttv/ttv_apiv2/public/get_list_story_author";
 
@@ -242,7 +242,7 @@ class TtvCrawler {
     return new Promise((res) => {
       axios
         .post(this.baseGetFullInformationStoryUrl, {
-          id_story: idStory,
+          idStory: idStory,
         })
         .then((rs) => {
           let { data, config } = rs;

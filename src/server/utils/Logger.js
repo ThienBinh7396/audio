@@ -1,21 +1,33 @@
 const fs = require("fs");
 
+const { LOG_ROOT } = require("../constants/constants");
 class Logger {
-  saveLogInFile({ content, filePath, flags = "a+", failCallback, successCallback }) {
-    fs.open(filePath, flags, (err, fd) => {
+  constructor() {
+    this.checkLogInit();
+  }
+
+  checkLogInit() {
+    console.log(LOG_ROOT, fs.existsSync(LOG_ROOT))
+    if (!fs.existsSync(LOG_ROOT)) {
+      fs.mkdirSync(LOG_ROOT);
+    }
+  }
+
+  saveLogInFile({
+    content,
+    filePath,
+    flags = "a+",
+    failCallback,
+    successCallback,
+  }) {
+    fs.appendFile(filePath, content, { flag: flags }, (err) => {
       if (err) {
+        console.log("err", err);
         failCallback(err);
         return;
       }
 
-      fs.appendFile(fd, content, "utf8", (err) => {
-        if (err) {
-          failCallback(err);
-          return;
-        }
-
-        successCallback()
-      });
+      successCallback();
     });
   }
 }

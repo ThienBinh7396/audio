@@ -7,19 +7,19 @@ const MultiStream = require("multistream");
 
 const request = require("request");
 
-const Logger = require("./../utils/Logger")
-
+const Logger = require("./../utils/Logger");
+const Helper = require("./../utils/Helper");
 const Status = require("./../utils/Status");
 
 const ttvCrawler = require("./../utils/TtvCrawler");
-
 const storyCrawler = require("./../utils/StoryCrawler");
 const { LOG_FILE_PATH } = require("../constants/constants");
 
 router.get("/wake-up", (req, res) => {
   let { accepter } = req.headers;
 
-  if (!accepter || accepter != "thienbinh") {
+  if (accepter) {
+    console.log("acc,", accepter);
     res.send("Permission deny...");
     return;
   }
@@ -27,12 +27,12 @@ router.get("/wake-up", (req, res) => {
   request("https://api.ipify.org/", (err, resp, body) => {
     Logger.saveLogInFile({
       content: `
-        - ${formatDate(Date.now()).fullType}
+        - ${Helper.formatDate(Date.now()).fullType}
         ${body}`,
       filePath: LOG_FILE_PATH,
-      failCallback: err => res.send("err: " + err.code),
-      successCallback: () => res.send("Heroku is waking up...")
-    })
+      failCallback: (err) => res.send("err: " + err.code),
+      successCallback: () => res.send("Heroku is waking up..."),
+    });
   });
 });
 
@@ -54,12 +54,12 @@ router.get("/story", (req, res) => {
 });
 
 router.get("/story/info", (req, res) => {
-  let { id_story } = req.query;
+  let { idStory } = req.query;
 
-  if (!id_story)
+  if (!idStory)
     return res.send(Status.getStatus("error", "Id of story is required"));
 
-  ttvCrawler.getFullInformationStory(id_story).then((rs) => {
+  ttvCrawler.getFullInformationStory(idStory).then((rs) => {
     if (rs) {
       res.send(Status.getStatus("success", "Successful", rs));
     } else {
@@ -184,7 +184,7 @@ router.get("/story/textToSpeech", async (req, res) => {
 
   try {
     // gtts.stream(req.query.text).pipe(res);
-    MultiStream(splitText.map(text => gtts.stream(text))).pipe(res);
+    MultiStream(splitText.map((text) => gtts.stream(text))).pipe(res);
   } catch (error) {
     console.log("Error: ", error);
     res.send(null);
