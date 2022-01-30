@@ -37,7 +37,7 @@ class Helper {
     const s = date.getSeconds();
 
     const f = "";
-    const full = `${d}/${month}/${y} ${h}:${formatNumber(m)}:${formatNumber(
+    const full = `${d}/${month}/${y} ${h}:${this.formatNumber(m)}:${this.formatNumber(
       s
     )}`;
 

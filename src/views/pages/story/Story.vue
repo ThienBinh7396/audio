@@ -207,7 +207,7 @@ export default {
       this.$axios
         .get("story/info", {
           params: {
-            id_story: this.currentstory.id,
+            idStory: this.currentstory.id,
           },
         })
         .then((rs) => {

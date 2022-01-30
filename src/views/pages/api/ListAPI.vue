@@ -285,7 +285,7 @@ export default {
               isValidated: false,
               params: [
                 {
-                  name: "id_story",
+                  name: "idStory",
                   type: "Integer",
                   description: "Id of story is required",
                   required: true,

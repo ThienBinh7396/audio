@@ -55,7 +55,7 @@ export default {
 
 
     if (index < 0) {
-      Vue.prototype.$axios.get(`/story/info?id_story=${recentStory.storyInfo.id}`)
+      Vue.prototype.$axios.get(`/story/info?idStory=${recentStory.storyInfo.id}`)
         .then(rs => {
           let { data } = rs;
 
