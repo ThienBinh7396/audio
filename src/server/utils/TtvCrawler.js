@@ -228,7 +228,7 @@ class TtvCrawler {
         (err, response, body) => {
           console.log(query, err);
           if (err || response.statusCode > 299) {
-            console.log("Crawler faild", this.fullUrlSearchStoryByName(query));
+            console.log("Crawler fail", this.fullUrlSearchStoryByName(query));
             res(null);
           } else {
             res(JSON.parse(body));
