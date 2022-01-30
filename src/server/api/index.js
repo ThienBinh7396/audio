@@ -10,6 +10,8 @@ const path = require("path");
 const request = require("request");
 const fs = require("fs");
 
+const Logger = require("./../utils/Logger")
+
 const Status = require("./../utils/Status");
 
 const ttvCrawler = require("./../utils/TtvCrawler");
@@ -17,29 +19,7 @@ const ttvCrawler = require("./../utils/TtvCrawler");
 const filePath = path.join(__dirname + "./../../../dist/logs/log.txt");
 
 const storyCrawler = require("./../utils/StoryCrawler");
-
-function formatNumber(num) {
-  return num > 9 ? num : `0${num}`;
-}
-
-function formatDate(str) {
-  var date = new Date(str);
-
-  var d = date.getDate();
-  var month = date.getMonth() + 1;
-  var y = date.getFullYear();
-  var h = date.getHours();
-  var m = date.getMinutes();
-  var s = date.getSeconds();
-
-  var f = "";
-  var full = `${d}/${month}/${y} ${h}:${formatNumber(m)}:${formatNumber(s)}`;
-
-  return {
-    format: f,
-    fullType: full,
-  };
-}
+const { LOG_FILE_PATH } = require("../constants/constants");
 
 router.get("/wake-up", (req, res) => {
   let { accept } = req.headers;
@@ -50,30 +30,14 @@ router.get("/wake-up", (req, res) => {
   }
 
   request("https://api.ipify.org/", (err, resp, body) => {
-    console.log(body);
-
-    fs.open(filePath, "a+", (err, fd) => {
-      if (err) {
-        res.send("err: " + err.code);
-
-        return;
-      }
-
-      let textAppend = `
-- ${formatDate(Date.now()).fullType}
-  ${body}`;
-
-      fs.appendFile(fd, textAppend, "utf8", (err) => {
-        if (err) {
-          console.log(err);
-          res.send("err: " + err.code);
-
-          return;
-        }
-
-        res.send("Waking up...");
-      });
-    });
+    Logger.saveLogInFile({
+      content: `
+        - ${formatDate(Date.now()).fullType}
+        ${body}`,
+      filePath: LOG_FILE_PATH,
+      failCallback: err => res.send("err: " + err.code),
+      successCallback: () => res.send("Heroku is waking up...")
+    })
   });
 });
 
@@ -158,14 +122,14 @@ router.get("/story/search", (req, res) => {
 });
 
 router.get("/story/read", (req, res) => {
-  let { story_url, chapter_url } = req.query;
+  let { storyUrl, chapter_url } = req.query;
 
-  if (!story_url || !chapter_url)
+  if (!storyUrl || !chapter_url)
     return res.send(
       Status.getStatus("error", "Url story and url chapter is required!")
     );
 
-  ttvCrawler.getContentChapterOfStory(story_url, chapter_url).then((rs) => {
+  ttvCrawler.getContentChapterOfStory(storyUrl, chapter_url).then((rs) => {
     if (rs) {
       res.send(Status.getStatus("success", "Successful", rs));
     } else {

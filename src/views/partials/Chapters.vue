@@ -44,10 +44,10 @@ import {
 } from 'vuex';
 export default {
     props: {
-        story_id: {
+        storyId: {
             type: Number
         },
-        story_url: {
+        storyUrl: {
             type: String
         },
         current: {
@@ -90,7 +90,7 @@ export default {
 
             this.$axios.get('/story/chapter', {
                     params: {
-                        storyId: this.story_id
+                        storyId: this.storyId
                     }
                 })
                 .then(rs => {
@@ -179,7 +179,7 @@ export default {
         toChapter: function (item) {
 
             if (item.type == 'divider') return;
-            this.$router.push(`/read/story/${this.story_url}/${item.href}/${item.chapterId}`);
+            this.$router.push(`/read/story/${this.storyUrl}/${item.href}/${item.chapterId}`);
         },
         getChapter: function () {
             this.$emit('getChapter', this.chapters);

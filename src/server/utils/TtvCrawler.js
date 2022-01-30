@@ -16,9 +16,9 @@ class TtvCrawler {
       "https://m.truyen.tangthuvien.vn/search-result?term=";
 
     // This url is used to get all chapter by story id, return a html page.
-    // Ex: https://truyen.tangthuvien.vn/story/chapters?story_id=1123
+    // Ex: https://truyen.tangthuvien.vn/story/chapters?storyId=1123
     this.baseGetChaptersByStoryID =
-      "https://truyen.tangthuvien.vn/story/chapters?story_id=";
+      "https://truyen.tangthuvien.vn/story/chapters?storyId=";
 
     // This url is used to get information of story.
     //Ex: https://truyen.tangthuvien.vn/doc-truyen/vu-su-bat-hu
@@ -253,7 +253,7 @@ class TtvCrawler {
           if (data.status == 1) {
             let { story } = data;
 
-            story.story_url = story.link_share.match(/(?<url>[^(\/)]*?)$/)[1];
+            story.storyUrl = story.link_share.match(/(?<url>[^(\/)]*?)$/)[1];
 
             res(data.story);
           } else {
@@ -281,19 +281,19 @@ class TtvCrawler {
             let $ = cheerio.load(body);
 
             let id = Number(
-              $(`.form-box-report input[name='story_id']`).attr("value")
+              $(`.form-box-report input[name='storyId']`).attr("value")
             );
 
             let content = $(".box-chap").text();
 
-            let title_story = $("h1.truyen-title a").text();
+            let titleStory = $("h1.truyen-title a").text();
 
             let chapter = $("h1.truyen-title + h2").text();
 
             res({
               id,
-              title_story,
-              url_story: urlStory,
+              titleStory,
+              urlStory: urlStory,
               chapter,
               content,
             });
@@ -312,18 +312,18 @@ class TtvCrawler {
           let $ = cheerio.load(body);
 
           let id = Number(
-            $(`.form-box-report input[name='story_id']`).attr("value")
+            $(`.form-box-report input[name='storyId']`).attr("value")
           );
 
           let content = $(".box-chap").text();
 
-          let title_story = $("h1.truyen-title a").text();
+          let titleStory = $("h1.truyen-title a").text();
 
           let chapter = $("h1.truyen-title + h2").text();
 
           res({
             id,
-            title_story,
+            titleStory,
             url_chapter: urlChapter,
             chapter,
             content,

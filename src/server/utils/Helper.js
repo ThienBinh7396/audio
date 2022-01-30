@@ -21,6 +21,31 @@ class Helper {
     str = str.replace(/\u02C6|\u0306|\u031B/g, ""); // Â, Ê, Ă, Ơ, Ư
     return str;
   }
+
+  formatNumber(num) {
+    return `${num}`.padStart(2, '0');
+  }
+
+  formatDate(dateStr) {
+    const date = new Date(dateStr);
+
+    const d = date.getDate();
+    const month = date.getMonth() + 1;
+    const y = date.getFullYear();
+    const h = date.getHours();
+    const m = date.getMinutes();
+    const s = date.getSeconds();
+
+    const f = "";
+    const full = `${d}/${month}/${y} ${h}:${formatNumber(m)}:${formatNumber(
+      s
+    )}`;
+
+    return {
+      format: f,
+      fullType: full,
+    };
+  }
 }
 
 module.exports = new Helper();
