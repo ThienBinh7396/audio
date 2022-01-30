@@ -29,9 +29,9 @@
           <chapter
             :dialog="true"
             @getChapter="getChapters"
-            :current="Number(chapter_id)"
-            :story_id="storyInfo.id"
-            :story_url="storyInfo.url_story"
+            :current="Number(chapterId)"
+            :storyId="storyInfo.id"
+            :storyUrl="storyInfo.urlStory"
           />
         </v-card>
       </div>
@@ -84,7 +84,7 @@
       </div>
 
       <div class="chapter px-0 px-md-5 px-lg-10" v-if="!loading">
-        <h1 class="mt-2 text-center">{{ storyInfo.title_story }}</h1>
+        <h1 class="mt-2 text-center">{{ storyInfo.titleStory }}</h1>
         <div class="title text-center">{{ storyInfo.chapter }}</div>
         <div
           class="chapter-content mt-12 mb-12"
@@ -231,9 +231,9 @@ export default {
       dialogTimer: false,
       showTimer: false,
       countDown: null,
-      story_url: "",
+      storyUrl: "",
       chapter_url: "",
-      chapter_id: -1,
+      chapterId: -1,
       storyInfo: {},
       chapters: [],
       loading: false,
@@ -277,11 +277,11 @@ export default {
     ]),
     ...mapActions("app", ["showToast", "updateRecentlyStory"]),
     init: function() {
-      let { story_url, chapter_url, chapter_id } = this.$route.params;
+      let { storyUrl, chapter_url, chapterId } = this.$route.params;
 
-      this.story_url = story_url;
+      this.storyUrl = storyUrl;
       this.chapter_url = chapter_url;
-      this.chapter_id = chapter_id;
+      this.chapterId = chapterId;
 
       this.baseApiUrl = this.$axios.defaults.baseURL;
 
@@ -292,7 +292,7 @@ export default {
       this.$axios
         .get(`/story/read`, {
           params: {
-            story_url: this.story_url,
+            storyUrl: this.storyUrl,
             chapter_url: this.chapter_url,
           },
         })
@@ -302,7 +302,7 @@ export default {
           if (
             data.type == "error" ||
             data.data.id == null ||
-            !data.data.title_story
+            !data.data.titleStory
           ) {
             this.$router.push("/404");
             return;
@@ -334,8 +334,8 @@ export default {
               text: "Trang chủ",
             },
             {
-              path: `/story/${this.storyInfo.url_story}/${this.storyInfo.id}`,
-              text: this.storyInfo.title_story,
+              path: `/story/${this.storyInfo.urlStory}/${this.storyInfo.id}`,
+              text: this.storyInfo.titleStory,
             },
             {
               path: ``,
@@ -344,13 +344,13 @@ export default {
           ]);
 
           this.setTitle(
-            `${this.storyInfo.title_story} - ${this.storyInfo.chapter}`
+            `${this.storyInfo.titleStory} - ${this.storyInfo.chapter}`
           );
 
           window.history.replaceState(
             {},
             "",
-            `/read/story/${this.story_url}/${this.chapter_url}/${this.chapter_id}`
+            `/read/story/${this.storyUrl}/${this.chapter_url}/${this.chapterId}`
           );
 
           this.scrollToTop(true);
@@ -359,7 +359,7 @@ export default {
 
           this.updateRecentlyStory({
             storyInfo: this.storyInfo,
-            chapterId: this.$route.params.chapter_id,
+            chapterId: this.$route.params.chapterId,
             chapterHref: this.$route.params.chapter_url,
           });
 
@@ -581,7 +581,7 @@ export default {
       let index = this.getIndex();
 
       if (index != this.chapters.length - 1) {
-        this.chapter_id = this.chapters[index + 1].chapterId;
+        this.chapterId = this.chapters[index + 1].chapterId;
         this.chapter_url = this.chapters[index + 1].href;
 
         if (this.loadingNewChapter) return;
@@ -595,7 +595,7 @@ export default {
           text: "Chương cuối!",
         });
       }
-      console.log(this.chapter_id, index);
+      console.log(this.chapterId, index);
     },
     prevChapter: function() {
       this.loadingNewChapter = true;
@@ -612,7 +612,7 @@ export default {
       let index = this.getIndex();
 
       if (index != 0) {
-        this.chapter_id = this.chapters[index - 1].chapterId;
+        this.chapterId = this.chapters[index - 1].chapterId;
         this.chapter_url = this.chapters[index - 1].href;
 
         this.loadContent();
@@ -622,7 +622,7 @@ export default {
           text: "Chương đầu tiên. Không thể trở về!",
         });
       }
-      console.log(this.chapter_id, index);
+      console.log(this.chapterId, index);
     },
     scrollText: function() {
       let objDiv = document.getElementById(`js-line-${this.currentLine}`);
@@ -672,7 +672,7 @@ export default {
       this.chapters = chaps;
     },
     getIndex: function() {
-      return this.chapters.findIndex((it) => it.chapterId == this.chapter_id);
+      return this.chapters.findIndex((it) => it.chapterId == this.chapterId);
     },
     checkNumber: function($event) {
       return $event.keyCode >= 48 && $event.keyCode <= 57;

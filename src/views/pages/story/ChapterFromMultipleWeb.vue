@@ -279,7 +279,7 @@ export default {
       }
     },
     getIndex: function() {
-      return this.chapters.findIndex((it) => it.chapterId == this.chapter_id);
+      return this.chapters.findIndex((it) => it.chapterId == this.chapterId);
     },
     ended: function() {
       if (

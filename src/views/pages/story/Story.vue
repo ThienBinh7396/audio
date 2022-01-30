@@ -65,7 +65,7 @@
                 tile
                 class="ml-3"
                 :to="
-                  `/read/story/${currentstory.story_url}/${currentstory.recentChapter.href}/${currentstory.recentChapter.id}`
+                  `/read/story/${currentstory.storyUrl}/${currentstory.recentChapter.href}/${currentstory.recentChapter.id}`
                 "
                 v-if="currentstory.recentChapter"
                 >Đọc tiếp</v-btn
@@ -104,7 +104,7 @@
                   <span class="content text-truncate">
                     <router-link
                       :to="
-                        `/read/story/${currentstory.story_url}/${currentstory.recentChapter.href}/${currentstory.recentChapter.id}`
+                        `/read/story/${currentstory.storyUrl}/${currentstory.recentChapter.href}/${currentstory.recentChapter.id}`
                       "
                       >{{ currentstory.recentChapter.title }}</router-link
                     >
@@ -115,7 +115,7 @@
                   <span class="content text-truncate">
                     <router-link
                       :to="
-                        `/read/story/${currentstory.story_url}/${currentstory.chapter_new.url}/${currentstory.chapter_new.id}`
+                        `/read/story/${currentstory.storyUrl}/${currentstory.chapter_new.url}/${currentstory.chapter_new.id}`
                       "
                       >{{ currentstory.chapter_new.name_id_chapter }}:
                       {{
@@ -146,8 +146,8 @@
               <div class="mt-8 tab-window" key="tab-1" v-show="tab == 1">
                 <chapter
                   @getChapter="getChapters"
-                  :story_id="this.currentstory.id"
-                  :story_url="currentstory.story_url"
+                  :storyId="this.currentstory.id"
+                  :storyUrl="currentstory.storyUrl"
                   v-if="!loading"
                 />
               </div>
@@ -268,7 +268,7 @@ export default {
 
       if (index >= 0)
         this.$router.push(
-          `/read/story/${this.currentstory.story_url}/${this.chaps[index].href}/${this.chaps[index].chapterId}`
+          `/read/story/${this.currentstory.storyUrl}/${this.chaps[index].href}/${this.chaps[index].chapterId}`
         );
     },
   },

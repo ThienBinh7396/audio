@@ -27,7 +27,7 @@ export default [
         },
       },
       {
-        path: "/story/:story_url/:storyId",
+        path: "/story/:storyUrl/:storyId",
         name: "StoryPage",
         component: () => import("@/views/pages/story/Story"),
         meta: {
@@ -35,7 +35,7 @@ export default [
         },
       },
       {
-        path: "/read/story/:story_url/:chapter_url/:chapter_id",
+        path: "/read/story/:storyUrl/:chapter_url/:chapterId",
         name: "ChapterPage",
         component: () => import("@/views/pages/story/ContentChapterRsVAudio"),
         meta: {

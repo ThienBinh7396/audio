@@ -348,7 +348,7 @@ export default {
             {
               id: uuidv4(),
               description:
-                "get content of chapter by story_url and chapter_url",
+                "get content of chapter by storyUrl and chapter_url",
               type: "GET",
               url: "story/read",
               isOpen: false,
@@ -357,7 +357,7 @@ export default {
               isValidated: false,
               params: [
                 {
-                  name: "story_url",
+                  name: "storyUrl",
                   type: "String",
                   description: "Url of story is required",
                   required: true,
